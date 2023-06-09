@@ -21,7 +21,7 @@ namespace PhotoEditor.Helpers
         public int Brightness { get; set; }
         public int Contrast { get; set; }
         public int Saturation { get; set; }
-        public int Temperature { get; set; }
+        public int Balance { get; set; }
         public int Highlight { get; set; }
         public int Exposition { get; set; }
 
@@ -65,7 +65,7 @@ namespace PhotoEditor.Helpers
         {
             get
             {
-                return (Brightness != 0 || Contrast != 0 || Saturation != 0 || Temperature != 0 || Highlight != 0 || Exposition != 0 || UseMatrix || NoiseReduce.Size != 0)
+                return (Brightness != 0 || Contrast != 0 || Saturation != 0 || Balance != 0 || Highlight != 0 || Exposition != 0 || UseMatrix || NoiseReduce.Size != 0)
                     && Tone.IsValid() && Pixel.IsValid() && Light.IsValid();
             }
         }
@@ -74,7 +74,7 @@ namespace PhotoEditor.Helpers
         {
             get
             {
-                return (Brightness != 0 || Contrast != 0 || Saturation != 0 || Temperature != 0 || Highlight != 0 || Exposition != 0)
+                return (Brightness != 0 || Contrast != 0 || Saturation != 0 || Balance != 0 || Highlight != 0 || Exposition != 0)
                     && Tone.IsValid() && Pixel.IsValid() && Light.IsValid();
             }
 
@@ -99,9 +99,9 @@ namespace PhotoEditor.Helpers
             {
                 results.Add("sat:" + this.Saturation);
             }
-            if (this.Temperature != 0)
+            if (this.Balance != 0)
             {
-                results.Add("temp:"+ this.Temperature);
+                results.Add("bal:"+ this.Balance);
             }
             if (this.Highlight != 0)
             {

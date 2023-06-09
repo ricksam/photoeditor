@@ -42,7 +42,7 @@ namespace PhotoEditor
             this.btnExposition = new System.Windows.Forms.Button();
             this.trExposition = new System.Windows.Forms.TrackBar();
             this.btnBrilho = new System.Windows.Forms.Button();
-            this.btnTemperatura = new System.Windows.Forms.Button();
+            this.btnBalance = new System.Windows.Forms.Button();
             this.btnContrast = new System.Windows.Forms.Button();
             this.btnSaturation = new System.Windows.Forms.Button();
             this.lblRealce = new System.Windows.Forms.Label();
@@ -76,9 +76,9 @@ namespace PhotoEditor
             this.bm1 = new System.Windows.Forms.TextBox();
             this.cmbBalanceRight = new System.Windows.Forms.ComboBox();
             this.cmbBalanceLeft = new System.Windows.Forms.ComboBox();
-            this.lblTemperatura = new System.Windows.Forms.Label();
+            this.lblBalance = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.trTemperatura = new System.Windows.Forms.TrackBar();
+            this.trBalance = new System.Windows.Forms.TrackBar();
             this.panel4 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.cbB = new System.Windows.Forms.CheckBox();
@@ -134,7 +134,7 @@ namespace PhotoEditor
             ((System.ComponentModel.ISupportInitialize)(this.numSizeNoise)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trHighlight)).BeginInit();
             this.panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trTemperatura)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trBalance)).BeginInit();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTones)).BeginInit();
@@ -217,7 +217,7 @@ namespace PhotoEditor
             this.panel7.Controls.Add(this.btnExposition);
             this.panel7.Controls.Add(this.trExposition);
             this.panel7.Controls.Add(this.btnBrilho);
-            this.panel7.Controls.Add(this.btnTemperatura);
+            this.panel7.Controls.Add(this.btnBalance);
             this.panel7.Controls.Add(this.btnContrast);
             this.panel7.Controls.Add(this.btnSaturation);
             this.panel7.Controls.Add(this.lblRealce);
@@ -237,9 +237,9 @@ namespace PhotoEditor
             this.panel7.Controls.Add(this.panel6);
             this.panel7.Controls.Add(this.cmbBalanceRight);
             this.panel7.Controls.Add(this.cmbBalanceLeft);
-            this.panel7.Controls.Add(this.lblTemperatura);
+            this.panel7.Controls.Add(this.lblBalance);
             this.panel7.Controls.Add(this.label4);
-            this.panel7.Controls.Add(this.trTemperatura);
+            this.panel7.Controls.Add(this.trBalance);
             this.panel7.Controls.Add(this.panel4);
             this.panel7.Controls.Add(this.panel3);
             this.panel7.Controls.Add(this.btnAplicar);
@@ -257,7 +257,7 @@ namespace PhotoEditor
             this.lblExposition.ForeColor = System.Drawing.Color.White;
             this.lblExposition.Location = new System.Drawing.Point(93, 515);
             this.lblExposition.Name = "lblExposition";
-            this.lblExposition.Size = new System.Drawing.Size(32, 17);
+            this.lblExposition.Size = new System.Drawing.Size(28, 16);
             this.lblExposition.TabIndex = 35;
             this.lblExposition.Text = "100";
             // 
@@ -267,7 +267,7 @@ namespace PhotoEditor
             this.label16.ForeColor = System.Drawing.Color.White;
             this.label16.Location = new System.Drawing.Point(16, 515);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(76, 17);
+            this.label16.Size = new System.Drawing.Size(74, 16);
             this.label16.TabIndex = 34;
             this.label16.Text = "Exposição:";
             // 
@@ -312,20 +312,20 @@ namespace PhotoEditor
             this.btnBrilho.UseVisualStyleBackColor = false;
             this.btnBrilho.Click += new System.EventHandler(this.btnBrilho_Click);
             // 
-            // btnTemperatura
+            // btnBalance
             // 
-            this.btnTemperatura.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.btnTemperatura.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
-            this.btnTemperatura.FlatAppearance.BorderSize = 0;
-            this.btnTemperatura.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnTemperatura.ForeColor = System.Drawing.Color.White;
-            this.btnTemperatura.Location = new System.Drawing.Point(124, 360);
-            this.btnTemperatura.Name = "btnTemperatura";
-            this.btnTemperatura.Size = new System.Drawing.Size(20, 20);
-            this.btnTemperatura.TabIndex = 29;
-            this.btnTemperatura.Text = "*";
-            this.btnTemperatura.UseVisualStyleBackColor = false;
-            this.btnTemperatura.Click += new System.EventHandler(this.btnTemperatura_Click);
+            this.btnBalance.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.btnBalance.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
+            this.btnBalance.FlatAppearance.BorderSize = 0;
+            this.btnBalance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBalance.ForeColor = System.Drawing.Color.White;
+            this.btnBalance.Location = new System.Drawing.Point(124, 360);
+            this.btnBalance.Name = "btnBalance";
+            this.btnBalance.Size = new System.Drawing.Size(20, 20);
+            this.btnBalance.TabIndex = 29;
+            this.btnBalance.Text = "*";
+            this.btnBalance.UseVisualStyleBackColor = false;
+            this.btnBalance.Click += new System.EventHandler(this.btnTemperatura_Click);
             // 
             // btnContrast
             // 
@@ -363,7 +363,7 @@ namespace PhotoEditor
             this.lblRealce.ForeColor = System.Drawing.Color.White;
             this.lblRealce.Location = new System.Drawing.Point(226, 515);
             this.lblRealce.Name = "lblRealce";
-            this.lblRealce.Size = new System.Drawing.Size(32, 17);
+            this.lblRealce.Size = new System.Drawing.Size(28, 16);
             this.lblRealce.TabIndex = 24;
             this.lblRealce.Text = "100";
             // 
@@ -373,7 +373,7 @@ namespace PhotoEditor
             this.lblContraste.ForeColor = System.Drawing.Color.White;
             this.lblContraste.Location = new System.Drawing.Point(230, 452);
             this.lblContraste.Name = "lblContraste";
-            this.lblContraste.Size = new System.Drawing.Size(32, 17);
+            this.lblContraste.Size = new System.Drawing.Size(28, 16);
             this.lblContraste.TabIndex = 18;
             this.lblContraste.Text = "100";
             // 
@@ -383,7 +383,7 @@ namespace PhotoEditor
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Location = new System.Drawing.Point(147, 452);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(73, 17);
+            this.label2.Size = new System.Drawing.Size(67, 16);
             this.label2.TabIndex = 17;
             this.label2.Text = "Contraste:";
             // 
@@ -393,7 +393,7 @@ namespace PhotoEditor
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Location = new System.Drawing.Point(149, 515);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 17);
+            this.label3.Size = new System.Drawing.Size(54, 16);
             this.label3.TabIndex = 23;
             this.label3.Text = "Realce:";
             // 
@@ -418,7 +418,7 @@ namespace PhotoEditor
             this.lblSaturation.ForeColor = System.Drawing.Color.White;
             this.lblSaturation.Location = new System.Drawing.Point(230, 391);
             this.lblSaturation.Name = "lblSaturation";
-            this.lblSaturation.Size = new System.Drawing.Size(32, 17);
+            this.lblSaturation.Size = new System.Drawing.Size(28, 16);
             this.lblSaturation.TabIndex = 26;
             this.lblSaturation.Text = "100";
             // 
@@ -428,7 +428,7 @@ namespace PhotoEditor
             this.label13.ForeColor = System.Drawing.Color.White;
             this.label13.Location = new System.Drawing.Point(142, 391);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(77, 17);
+            this.label13.Size = new System.Drawing.Size(72, 16);
             this.label13.TabIndex = 25;
             this.label13.Text = "Saturação:";
             // 
@@ -449,7 +449,7 @@ namespace PhotoEditor
             this.lblBrilho.ForeColor = System.Drawing.Color.White;
             this.lblBrilho.Location = new System.Drawing.Point(93, 452);
             this.lblBrilho.Name = "lblBrilho";
-            this.lblBrilho.Size = new System.Drawing.Size(32, 17);
+            this.lblBrilho.Size = new System.Drawing.Size(28, 16);
             this.lblBrilho.TabIndex = 16;
             this.lblBrilho.Text = "100";
             // 
@@ -459,7 +459,7 @@ namespace PhotoEditor
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(16, 448);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(48, 17);
+            this.label1.Size = new System.Drawing.Size(44, 16);
             this.label1.TabIndex = 15;
             this.label1.Text = "Brilho:";
             // 
@@ -507,7 +507,7 @@ namespace PhotoEditor
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(118, 28);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(56, 17);
+            this.label12.Size = new System.Drawing.Size(52, 16);
             this.label12.TabIndex = 3;
             this.label12.Text = "Limite:";
             // 
@@ -518,7 +518,7 @@ namespace PhotoEditor
             this.label11.ForeColor = System.Drawing.Color.White;
             this.label11.Location = new System.Drawing.Point(25, 28);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 17);
+            this.label11.Size = new System.Drawing.Size(42, 16);
             this.label11.TabIndex = 1;
             this.label11.Text = "Tam:";
             // 
@@ -529,7 +529,7 @@ namespace PhotoEditor
             this.label10.ForeColor = System.Drawing.Color.White;
             this.label10.Location = new System.Drawing.Point(4, 4);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(137, 17);
+            this.label10.Size = new System.Drawing.Size(131, 16);
             this.label10.TabIndex = 0;
             this.label10.Text = "Redução de ruído";
             // 
@@ -756,15 +756,15 @@ namespace PhotoEditor
             this.cmbBalanceLeft.TabIndex = 6;
             this.cmbBalanceLeft.SelectedIndexChanged += new System.EventHandler(this.cmbBalanceLeft_SelectedIndexChanged);
             // 
-            // lblTemperatura
+            // lblBalance
             // 
-            this.lblTemperatura.AutoSize = true;
-            this.lblTemperatura.ForeColor = System.Drawing.Color.White;
-            this.lblTemperatura.Location = new System.Drawing.Point(93, 387);
-            this.lblTemperatura.Name = "lblTemperatura";
-            this.lblTemperatura.Size = new System.Drawing.Size(32, 17);
-            this.lblTemperatura.TabIndex = 10;
-            this.lblTemperatura.Text = "100";
+            this.lblBalance.AutoSize = true;
+            this.lblBalance.ForeColor = System.Drawing.Color.White;
+            this.lblBalance.Location = new System.Drawing.Point(93, 387);
+            this.lblBalance.Name = "lblBalance";
+            this.lblBalance.Size = new System.Drawing.Size(28, 16);
+            this.lblBalance.TabIndex = 10;
+            this.lblBalance.Text = "100";
             // 
             // label4
             // 
@@ -772,20 +772,20 @@ namespace PhotoEditor
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Location = new System.Drawing.Point(16, 387);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 17);
+            this.label4.Size = new System.Drawing.Size(57, 16);
             this.label4.TabIndex = 5;
             this.label4.Text = "Balanço";
             // 
-            // trTemperatura
+            // trBalance
             // 
-            this.trTemperatura.Location = new System.Drawing.Point(6, 358);
-            this.trTemperatura.Maximum = 100;
-            this.trTemperatura.Minimum = -100;
-            this.trTemperatura.Name = "trTemperatura";
-            this.trTemperatura.Size = new System.Drawing.Size(127, 56);
-            this.trTemperatura.TabIndex = 8;
-            this.trTemperatura.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trTemperatura.ValueChanged += new System.EventHandler(this.Control_MakeAdjusts);
+            this.trBalance.Location = new System.Drawing.Point(6, 358);
+            this.trBalance.Maximum = 100;
+            this.trBalance.Minimum = -100;
+            this.trBalance.Name = "trBalance";
+            this.trBalance.Size = new System.Drawing.Size(127, 56);
+            this.trBalance.TabIndex = 8;
+            this.trBalance.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trBalance.ValueChanged += new System.EventHandler(this.Control_MakeAdjusts);
             // 
             // panel4
             // 
@@ -806,7 +806,7 @@ namespace PhotoEditor
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(12, 20);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 17);
+            this.label5.Size = new System.Drawing.Size(53, 16);
             this.label5.TabIndex = 0;
             this.label5.Text = "Pixels:";
             // 
@@ -820,7 +820,7 @@ namespace PhotoEditor
             this.cbB.ForeColor = System.Drawing.Color.White;
             this.cbB.Location = new System.Drawing.Point(110, 47);
             this.cbB.Name = "cbB";
-            this.cbB.Size = new System.Drawing.Size(35, 21);
+            this.cbB.Size = new System.Drawing.Size(34, 20);
             this.cbB.TabIndex = 3;
             this.cbB.Text = "B";
             this.cbB.UseVisualStyleBackColor = false;
@@ -836,7 +836,7 @@ namespace PhotoEditor
             this.cbG.ForeColor = System.Drawing.Color.White;
             this.cbG.Location = new System.Drawing.Point(63, 47);
             this.cbG.Name = "cbG";
-            this.cbG.Size = new System.Drawing.Size(37, 21);
+            this.cbG.Size = new System.Drawing.Size(35, 20);
             this.cbG.TabIndex = 2;
             this.cbG.Text = "G";
             this.cbG.UseVisualStyleBackColor = false;
@@ -852,7 +852,7 @@ namespace PhotoEditor
             this.cbR.ForeColor = System.Drawing.Color.White;
             this.cbR.Location = new System.Drawing.Point(17, 47);
             this.cbR.Name = "cbR";
-            this.cbR.Size = new System.Drawing.Size(36, 21);
+            this.cbR.Size = new System.Drawing.Size(35, 20);
             this.cbR.TabIndex = 1;
             this.cbR.Text = "R";
             this.cbR.UseVisualStyleBackColor = false;
@@ -890,7 +890,7 @@ namespace PhotoEditor
             this.cbTS.ForeColor = System.Drawing.Color.White;
             this.cbTS.Location = new System.Drawing.Point(24, 78);
             this.cbTS.Name = "cbTS";
-            this.cbTS.Size = new System.Drawing.Size(35, 21);
+            this.cbTS.Size = new System.Drawing.Size(34, 20);
             this.cbTS.TabIndex = 10;
             this.cbTS.Text = "S";
             this.cbTS.UseVisualStyleBackColor = false;
@@ -903,7 +903,7 @@ namespace PhotoEditor
             this.label9.ForeColor = System.Drawing.Color.White;
             this.label9.Location = new System.Drawing.Point(208, 46);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 17);
+            this.label9.Size = new System.Drawing.Size(47, 16);
             this.label9.TabIndex = 8;
             this.label9.Text = "Peso:";
             // 
@@ -912,7 +912,7 @@ namespace PhotoEditor
             this.numTones.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.numTones.Location = new System.Drawing.Point(213, 66);
             this.numTones.Maximum = new decimal(new int[] {
-            9,
+            8,
             0,
             0,
             0});
@@ -938,7 +938,7 @@ namespace PhotoEditor
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(14, 7);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 17);
+            this.label7.Size = new System.Drawing.Size(34, 16);
             this.label7.TabIndex = 0;
             this.label7.Text = "Luz:";
             // 
@@ -952,7 +952,7 @@ namespace PhotoEditor
             this.cbMedios.ForeColor = System.Drawing.Color.White;
             this.cbMedios.Location = new System.Drawing.Point(112, 7);
             this.cbMedios.Name = "cbMedios";
-            this.cbMedios.Size = new System.Drawing.Size(37, 21);
+            this.cbMedios.Size = new System.Drawing.Size(36, 20);
             this.cbMedios.TabIndex = 2;
             this.cbMedios.Text = "M";
             this.cbMedios.UseVisualStyleBackColor = false;
@@ -965,7 +965,7 @@ namespace PhotoEditor
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(13, 46);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(49, 17);
+            this.label8.Size = new System.Drawing.Size(46, 16);
             this.label8.TabIndex = 4;
             this.label8.Text = "Tons:";
             // 
@@ -979,7 +979,7 @@ namespace PhotoEditor
             this.cbClaro.ForeColor = System.Drawing.Color.White;
             this.cbClaro.Location = new System.Drawing.Point(68, 7);
             this.cbClaro.Name = "cbClaro";
-            this.cbClaro.Size = new System.Drawing.Size(35, 21);
+            this.cbClaro.Size = new System.Drawing.Size(34, 20);
             this.cbClaro.TabIndex = 1;
             this.cbClaro.Text = "C";
             this.cbClaro.UseVisualStyleBackColor = false;
@@ -995,7 +995,7 @@ namespace PhotoEditor
             this.cbTC.ForeColor = System.Drawing.Color.White;
             this.cbTC.Location = new System.Drawing.Point(112, 78);
             this.cbTC.Name = "cbTC";
-            this.cbTC.Size = new System.Drawing.Size(35, 21);
+            this.cbTC.Size = new System.Drawing.Size(34, 20);
             this.cbTC.TabIndex = 12;
             this.cbTC.Text = "C";
             this.cbTC.UseVisualStyleBackColor = false;
@@ -1011,7 +1011,7 @@ namespace PhotoEditor
             this.cbTY.ForeColor = System.Drawing.Color.White;
             this.cbTY.Location = new System.Drawing.Point(68, 78);
             this.cbTY.Name = "cbTY";
-            this.cbTY.Size = new System.Drawing.Size(35, 21);
+            this.cbTY.Size = new System.Drawing.Size(34, 20);
             this.cbTY.TabIndex = 11;
             this.cbTY.Text = "Y";
             this.cbTY.UseVisualStyleBackColor = false;
@@ -1027,7 +1027,7 @@ namespace PhotoEditor
             this.cbTM.ForeColor = System.Drawing.Color.White;
             this.cbTM.Location = new System.Drawing.Point(158, 78);
             this.cbTM.Name = "cbTM";
-            this.cbTM.Size = new System.Drawing.Size(37, 21);
+            this.cbTM.Size = new System.Drawing.Size(36, 20);
             this.cbTM.TabIndex = 13;
             this.cbTM.Text = "M";
             this.cbTM.UseVisualStyleBackColor = false;
@@ -1043,7 +1043,7 @@ namespace PhotoEditor
             this.cbTB.ForeColor = System.Drawing.Color.White;
             this.cbTB.Location = new System.Drawing.Point(158, 46);
             this.cbTB.Name = "cbTB";
-            this.cbTB.Size = new System.Drawing.Size(35, 21);
+            this.cbTB.Size = new System.Drawing.Size(34, 20);
             this.cbTB.TabIndex = 7;
             this.cbTB.Text = "B";
             this.cbTB.UseVisualStyleBackColor = false;
@@ -1059,7 +1059,7 @@ namespace PhotoEditor
             this.cbTG.ForeColor = System.Drawing.Color.White;
             this.cbTG.Location = new System.Drawing.Point(112, 46);
             this.cbTG.Name = "cbTG";
-            this.cbTG.Size = new System.Drawing.Size(37, 21);
+            this.cbTG.Size = new System.Drawing.Size(35, 20);
             this.cbTG.TabIndex = 6;
             this.cbTG.Text = "G";
             this.cbTG.UseVisualStyleBackColor = false;
@@ -1075,7 +1075,7 @@ namespace PhotoEditor
             this.cbTR.ForeColor = System.Drawing.Color.White;
             this.cbTR.Location = new System.Drawing.Point(68, 46);
             this.cbTR.Name = "cbTR";
-            this.cbTR.Size = new System.Drawing.Size(36, 21);
+            this.cbTR.Size = new System.Drawing.Size(35, 20);
             this.cbTR.TabIndex = 5;
             this.cbTR.Text = "R";
             this.cbTR.UseVisualStyleBackColor = false;
@@ -1091,7 +1091,7 @@ namespace PhotoEditor
             this.cbEscuro.ForeColor = System.Drawing.Color.White;
             this.cbEscuro.Location = new System.Drawing.Point(158, 7);
             this.cbEscuro.Name = "cbEscuro";
-            this.cbEscuro.Size = new System.Drawing.Size(35, 21);
+            this.cbEscuro.Size = new System.Drawing.Size(34, 20);
             this.cbEscuro.TabIndex = 3;
             this.cbEscuro.Text = "E";
             this.cbEscuro.UseVisualStyleBackColor = false;
@@ -1231,7 +1231,7 @@ namespace PhotoEditor
             this.rbSD.ForeColor = System.Drawing.Color.White;
             this.rbSD.Location = new System.Drawing.Point(74, 18);
             this.rbSD.Name = "rbSD";
-            this.rbSD.Size = new System.Drawing.Size(47, 21);
+            this.rbSD.Size = new System.Drawing.Size(46, 20);
             this.rbSD.TabIndex = 1;
             this.rbSD.Text = "SD";
             this.rbSD.UseVisualStyleBackColor = true;
@@ -1245,7 +1245,7 @@ namespace PhotoEditor
             this.rbIllimited.ForeColor = System.Drawing.Color.White;
             this.rbIllimited.Location = new System.Drawing.Point(309, 18);
             this.rbIllimited.Name = "rbIllimited";
-            this.rbIllimited.Size = new System.Drawing.Size(79, 21);
+            this.rbIllimited.Size = new System.Drawing.Size(77, 20);
             this.rbIllimited.TabIndex = 5;
             this.rbIllimited.TabStop = true;
             this.rbIllimited.Text = "Ilimitado";
@@ -1259,7 +1259,7 @@ namespace PhotoEditor
             this.rb4K.ForeColor = System.Drawing.Color.White;
             this.rb4K.Location = new System.Drawing.Point(260, 18);
             this.rb4K.Name = "rb4K";
-            this.rb4K.Size = new System.Drawing.Size(45, 21);
+            this.rb4K.Size = new System.Drawing.Size(42, 20);
             this.rb4K.TabIndex = 4;
             this.rb4K.Text = "4K";
             this.rb4K.UseVisualStyleBackColor = true;
@@ -1271,7 +1271,7 @@ namespace PhotoEditor
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(4, 20);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 17);
+            this.label6.Size = new System.Drawing.Size(42, 16);
             this.label6.TabIndex = 0;
             this.label6.Text = "Limite";
             // 
@@ -1282,7 +1282,7 @@ namespace PhotoEditor
             this.rbFHD.ForeColor = System.Drawing.Color.White;
             this.rbFHD.Location = new System.Drawing.Point(182, 18);
             this.rbFHD.Name = "rbFHD";
-            this.rbFHD.Size = new System.Drawing.Size(74, 21);
+            this.rbFHD.Size = new System.Drawing.Size(71, 20);
             this.rbFHD.TabIndex = 3;
             this.rbFHD.Text = "Full HD";
             this.rbFHD.UseVisualStyleBackColor = true;
@@ -1295,7 +1295,7 @@ namespace PhotoEditor
             this.rbHD.ForeColor = System.Drawing.Color.White;
             this.rbHD.Location = new System.Drawing.Point(128, 18);
             this.rbHD.Name = "rbHD";
-            this.rbHD.Size = new System.Drawing.Size(48, 21);
+            this.rbHD.Size = new System.Drawing.Size(47, 20);
             this.rbHD.TabIndex = 2;
             this.rbHD.Text = "HD";
             this.rbHD.UseVisualStyleBackColor = true;
@@ -1430,6 +1430,7 @@ namespace PhotoEditor
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Photo Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
@@ -1443,7 +1444,7 @@ namespace PhotoEditor
             ((System.ComponentModel.ISupportInitialize)(this.trHighlight)).EndInit();
             this.panel6.ResumeLayout(false);
             this.panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trTemperatura)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trBalance)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
@@ -1479,9 +1480,9 @@ namespace PhotoEditor
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.ComboBox cmbBalanceRight;
         private System.Windows.Forms.ComboBox cmbBalanceLeft;
-        private System.Windows.Forms.Label lblTemperatura;
+        private System.Windows.Forms.Label lblBalance;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TrackBar trTemperatura;
+        private System.Windows.Forms.TrackBar trBalance;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox cbB;
@@ -1553,7 +1554,7 @@ namespace PhotoEditor
         private System.Windows.Forms.PictureBox imgFoto;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Button btnBrilho;
-        private System.Windows.Forms.Button btnTemperatura;
+        private System.Windows.Forms.Button btnBalance;
         private System.Windows.Forms.Button btnContrast;
         private System.Windows.Forms.Label lblExposition;
         private System.Windows.Forms.Label label16;

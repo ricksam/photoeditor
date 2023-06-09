@@ -11,7 +11,8 @@ using System.Windows.Forms;
 namespace PhotoEditor.Helpers
 {
     public delegate void ImageEditorProgress(int step, int count);
-    public delegate void ImageEditorPlugin(FastPixel fastPixel, int value);
+    public delegate void ImageEditorSetPixelColor(FastPixel fastPixel, int x, int y, Histogram histogram, Effect effect, Color color, PixelColor pixelColor);
+    //public delegate void ImageEditorPlugin(FastPixel fastPixel, int value);
     public class ImageEditor
     {
         public static bool Cancel = false;
@@ -32,12 +33,12 @@ namespace PhotoEditor.Helpers
 
                 if (colorEffects.Length > 0 && bitmap != null)
                 {
-                    ApplayColorEffects(fastPixel, colorEffects, histogram, progress);
+                    ApplayColorEffects(fastPixel, histogram, colorEffects, progress);
                 }
 
                 if (noiseEffects.Length > 0)
                 {
-                    ApplyNoiseEffects(fastPixel, noiseEffects, progress);
+                    ApplyNoiseEffects(fastPixel, histogram, noiseEffects, progress);
                 }
 
                 if (structureEffetcs.Length > 0)
@@ -102,7 +103,8 @@ namespace PhotoEditor.Helpers
             progress(0, 0);
             histogram.Avg /= (fastPixel.Width * fastPixel.Height);
 
-            histogram.MajorFatorS = Math.Min(histogram.MajorFatorS, histogram.Max);
+            //ao avaliar individualmente o cinza fica maior que o hs fator
+            //histogram.MajorFatorS = Math.Min(histogram.MajorFatorS, histogram.Max);
 
             return histogram;
         }
@@ -129,15 +131,16 @@ namespace PhotoEditor.Helpers
 
                 if (effect.Light.MidTones)
                 {
-                    m_tones = (1 - ((Math.Abs(avgPixel - cut)) / (range - cut))) * 100;
+                    m_tones = (1 - ((Math.Abs(avgPixel - (cut + histogram.Min))) / ((range + cut + histogram.Min) / 3))) * 100;
                 }
 
                 if (effect.Light.DarkTones)
                 {
-                    d_tones = ((histogram.Max - (avgPixel + histogram.Min + cut)) * 100 / (range - cut));
+                    d_tones = (cut - avgPixel + histogram.Min) * 100 / (range - cut);
                 }
 
-                return (int)Math.Max(l_tones, Math.Max(m_tones, d_tones));
+                double perc = Math.Max(l_tones, Math.Max(m_tones, d_tones));
+                return (int)Math.Max(0, Math.Min(perc, 100));
             }
         }
 
@@ -248,41 +251,32 @@ namespace PhotoEditor.Helpers
 
         private static PixelColor ColorAdjusts(PixelColor pixelColor, Effect effect, Histogram histogram)
         {
-            if (effect.Temperature != 0)
+            if (effect.Balance != 0)
             {
-                pixelColor = AjustaTemperatura(pixelColor, effect.Temperature, effect.BalanceLeft, effect.BalanceRight);
-            }
-            if (effect.Brightness != 0)
-            {
-                pixelColor = AjustaBrilho(pixelColor, effect.Brightness);
-            }
-            if (effect.Exposition != 0)
-            {
-                pixelColor = AjustaExposition(pixelColor, effect.Exposition, histogram.Avg);
+                pixelColor = AjustaTemperatura(pixelColor, effect.Balance, effect.BalanceLeft, effect.BalanceRight);
             }
             if (effect.Saturation != 0)
             {
                 pixelColor = AjustaSaturacao(pixelColor, effect.Saturation);
             }
-            if (effect.Contrast != 0)
-            {
-                pixelColor = AjustaContraste(pixelColor, effect.Contrast, histogram.Avg);
-            }
+            
             if (effect.Highlight != 0)
             {
                 pixelColor = AjustaRealce(pixelColor, effect.Highlight, histogram.Avg);
             }
+            if (effect.Exposition != 0)
+            {
+                pixelColor = AjustaExposition(pixelColor, effect.Exposition, histogram.Avg);
+            }
+            if (effect.Brightness != 0)
+            {
+                pixelColor = AjustaBrilho(pixelColor, effect.Brightness);
+            }
+            if (effect.Contrast != 0)
+            {
+                pixelColor = AjustaContraste(pixelColor, effect.Contrast, histogram.Avg);
+            }
             return pixelColor;
-        }
-
-        private static void SetPixelColor(int x, int y, FastPixel fastPixel, PixelColor pixelColor)
-        {
-
-            int newR = ColorHelper.LimitPixel(pixelColor.R);
-            int newG = ColorHelper.LimitPixel(pixelColor.G);
-            int newB = ColorHelper.LimitPixel(pixelColor.B);
-
-            fastPixel.SetPixel(x, y, Color.FromArgb(newR, newG, newB));
         }
 
         public static int GetMatrixDivider(int[,] matrix)
@@ -308,11 +302,25 @@ namespace PhotoEditor.Helpers
             return t;
         }
 
+        public static void SetPixelColor(FastPixel fastPixel, int x, int y, PixelColor pixelColor) {
+            int newR = ColorHelper.LimitPixel(pixelColor.R);
+            int newG = ColorHelper.LimitPixel(pixelColor.G);
+            int newB = ColorHelper.LimitPixel(pixelColor.B);
+
+            fastPixel.SetPixel(x, y, Color.FromArgb(newR, newG, newB));
+        }
+
+        public static void SetAndAtenuatePixelColor(FastPixel fastPixel, int x, int y, Histogram histogram, Effect effect, Color color, PixelColor pixelColor) {
+            pixelColor = AttenuateColor(effect, histogram, color, new PixelColor(color), pixelColor);
+            SetPixelColor(fastPixel, x, y, pixelColor);
+        }
+
         public static void ApplyMatrix(FastPixel fastPixel, Effect[] effects, Histogram histogram, ImageEditorProgress progress)
         {
             foreach (var effect in effects)
             {
-                FastPixel fastPixelCopy = fastPixel.Clone();
+                ImagePixelMatrix.SetMatrix(fastPixel, histogram, effect, progress, SetAndAtenuatePixelColor);
+                /*FastPixel fastPixelCopy = fastPixel.Clone();
 
                 double div = GetMatrixDivider(effect.Matrix);
                 // aplica o filtro na imagem
@@ -326,7 +334,7 @@ namespace PhotoEditor.Helpers
                     {
                         Color color = fastPixel.GetPixel(x, y);
                         PixelColor pixelColor = new PixelColor(color);
-                        int avgPixel = ColorHelper.GrayAvg(color);
+                        //int avgPixel = ColorHelper.GrayAvg(color);
 
                         //if (CanEdit(pixelColor, effect, histogram, avgPixel)) {
                         int r = 0, g = 0, b = 0;
@@ -349,25 +357,24 @@ namespace PhotoEditor.Helpers
                         pixelColor.G = g / div;
                         pixelColor.B = b / div;
 
-                        pixelColor = AttenuateColor(effect, histogram, color, new PixelColor(color), pixelColor, avgPixel);
-                        SetPixelColor(x, y, fastPixel, pixelColor);
+                        SetAndAtenuatePixelColor(fastPixel, x, y, histogram, effect, color, pixelColor);
                     }
-                });
+                });*/
             }
 
             progress(0, 0);
         }
 
-        public static void ApplyNoiseEffects(FastPixel fastPixel, Effect[] effects, ImageEditorProgress progress)
+        public static void ApplyNoiseEffects(FastPixel fastPixel, Histogram histogram, Effect[] effects, ImageEditorProgress progress)
         {
 
             foreach (var item in effects)
             {
-                ImageNoiseReducer.ReduceNoise(fastPixel, item.NoiseReduce.Size, item.NoiseReduce.Limit, progress);
+                ImageNoiseReducer.ReduceNoise(fastPixel, histogram, item, progress, SetAndAtenuatePixelColor);
             }
         }
 
-        public static void ApplayColorEffects(FastPixel fastPixel, Effect[] effects, Histogram histogram, ImageEditorProgress progress)
+        public static void ApplayColorEffects(FastPixel fastPixel, Histogram histogram, Effect[] effects, ImageEditorProgress progress)
         {
             int adjusts_count = 0;
             Parallel.For(0, fastPixel.Width, (x, loopState) =>
@@ -384,7 +391,7 @@ namespace PhotoEditor.Helpers
                     //}
                     if (Cancel) { return; }
                     Color color = fastPixel.GetPixel(x, y);
-                    int avgPixel = ColorHelper.GrayAvg(color);
+                    //int avgPixel = ColorHelper.GrayAvg(color);
                     PixelColor effetcColor = new PixelColor(color);
 
                     PixelColor pixelColor = new PixelColor(color);
@@ -393,19 +400,20 @@ namespace PhotoEditor.Helpers
                     {
                         if (Cancel) { return; }
                         pixelColor = ColorAdjusts(pixelColor, effect, histogram);
-                        pixelColor = AttenuateColor(effect, histogram, color, effetcColor, pixelColor, avgPixel);
+                        pixelColor = AttenuateColor(effect, histogram, color, effetcColor, pixelColor);
                         effetcColor = PixelColor.FromRGB(pixelColor.R, pixelColor.G, pixelColor.B);
                     }
 
 
-                    SetPixelColor(x, y, fastPixel, pixelColor);
+                    SetPixelColor(fastPixel, x, y, pixelColor);
                 }
             });
             progress(0, fastPixel.Width);
         }
 
-        private static PixelColor AttenuateColor(Effect effect, Histogram histogram, Color color, PixelColor effetcColor, PixelColor pixelColor, int avgPixel)
+        private static PixelColor AttenuateColor(Effect effect, Histogram histogram, Color color, PixelColor effetcColor, PixelColor pixelColor)
         {
+            int avgPixel=ColorHelper.GrayAvg(color);
             int percLight = PercColorLight(effect, histogram, avgPixel);
             int percTone = PercColorTone(effect, histogram, color);
             int perc = Math.Min(percLight, percTone);

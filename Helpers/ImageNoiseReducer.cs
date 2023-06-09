@@ -13,16 +13,11 @@ namespace PhotoEditor.Helpers
     public class ImageNoiseReducer
     {
         static FastPixel fastPixelCopy;
-        public static Bitmap ReduceNoise(FastPixel fastPixel, int size, int sigma, ImageEditorProgress progress)
+        public static void ReduceNoise(FastPixel fastPixel, Histogram histogram, Effect effect, ImageEditorProgress progress, ImageEditorSetPixelColor setPixelColor)
         {
             fastPixelCopy = fastPixel.Clone();
 
-            int size_array = (int)Math.Pow((2 * size) + 1, 2);
-            /*if (size == 1) { size_array = 9; }
-            else if (size == 2) { size_array = 25; }
-            else if (size == 3) { size_array = 49; }
-            else if (size == 4) { size_array = 81; }
-            else if (size == 5) { size_array = 121; }*/
+            int size_array = (int)Math.Pow((2 * effect.NoiseReduce.Size) + 1, 2);
 
             int adjusts_count = 0;
             Parallel.For(0, fastPixel.Height, (y, loopState) =>
@@ -36,8 +31,9 @@ namespace PhotoEditor.Helpers
                     {
                         if (ImageEditor.Cancel) { break; }
                         Color color = fastPixelCopy.GetPixel(x, y);
-                        Color[] neig = GetNeighborhoods(x, y, size, size_array);
-                        fastPixel.SetPixel(x, y, ShakeSimilarColors(neig, color, sigma));
+                        Color[] neig = GetNeighborhoods(x, y, effect.NoiseReduce.Size, size_array);
+                        //fastPixel.SetPixel(x, y, ShakeSimilarColors(neig, color, sigma));
+                        setPixelColor(fastPixel, x, y, histogram, effect, color, ShakeSimilarColors(neig, color, effect.NoiseReduce.Limit));
                     }
                 }
                 catch{
@@ -47,7 +43,7 @@ namespace PhotoEditor.Helpers
 
             progress(0, 0);
 
-            return fastPixel.Bitmap;
+            //return fastPixel.Bitmap;
         }
 
         public static Color[] GetNeighborhoods(int x, int y, int dist, int size_array)
@@ -71,80 +67,7 @@ namespace PhotoEditor.Helpers
             return cursor;
         }
 
-        /*
-        public static Color[] GetNeighborhoods(FastPixel fastPixel, int x, int y, int size, Color[] cursor)
-        {
-            int idx = 0;
-            for (int i = -size; i <= size; i++)
-            {
-                for (int j = -size; j <= size; j++)
-                {
-                    int xr = x + i;
-                    int yr = y + j;
-                    if (xr >= 0 && yr >= 0 && xr < fastPixel.Width && yr < fastPixel.Height)
-                    {
-                        Color pixel = fastPixel.GetPixel(xr, yr);
-                        cursor[idx] = pixel;
-                    }
-                    idx++;
-                }
-            }
-            return cursor;
-        }
-
-        public static Color[] GetNewNeighborhoodsX(FastPixel fastPixel, int x, int y, Color[] current_neighborhoods, int size, int pw, Color[] cursor)
-        {
-            //int pw = (int)Math.Sqrt(current_neighborhoods.Length);
-            //Color[] cursor = new Color[current_neighborhoods.Length];
-
-            for (int i = 0; i < cursor.Length - pw; i++)
-            {
-                cursor[i] = current_neighborhoods[i + pw];
-            }
-
-            int idx = cursor.Length - pw;
-            for (int j = -size; j <= size; j++)
-            {
-                int xr = x + size;
-                int yr = y + j;
-                if (xr >= 0 && yr >= 0 && xr < fastPixel.Width && yr < fastPixel.Height)
-                {
-                    Color pixel = fastPixel.GetPixel(xr, yr);
-                    cursor[idx] = pixel;
-                }
-                idx++;
-            }
-            return cursor;
-        }
-
-        public static Color[] GetNewNeighborhoodsY(FastPixel fastPixel, int x, int y, Color[] current_neighborhoods, int size, int pw , Color[] cursor)
-        {
-            //int pw = (int)Math.Sqrt(current_neighborhoods.Length);
-            //Color[] cursor = new Color[current_neighborhoods.Length];
-
-            for (int i = 0; i < cursor.Length - 1; i++)
-            {
-                cursor[i] = current_neighborhoods[i + 1];
-            }
-
-            int idx = 1;
-            for (int i = -size; i <= size; i++)
-            {
-
-                int xr = x + i;
-                int yr = y + size;
-                if (xr >= 0 && yr >= 0 && xr < fastPixel.Width && yr < fastPixel.Height)
-                {
-                    Color pixel = fastPixel.GetPixel(xr, yr);
-                    cursor[(idx * pw) - 1] = pixel;
-                }
-                idx++;
-            }
-
-            return cursor;
-        }
-        */
-        public static Color ShakeSimilarColors(Color[] colors, Color comp, int sigma)
+        public static PixelColor ShakeSimilarColors(Color[] colors, Color comp, int sigma)
         {
 
             int tR = 0;
@@ -168,11 +91,11 @@ namespace PhotoEditor.Helpers
 
             if (count == 0)
             {
-                return comp;
+                return new PixelColor(comp);
             }
             else
             {
-                return Color.FromArgb((tR / count), (tG / count), (tB / count));
+                return PixelColor.FromRGB((tR / count), (tG / count), (tB / count));
             }
         }
     }

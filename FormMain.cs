@@ -200,6 +200,12 @@ namespace PhotoEditor
             {
                 this.histogram = null;
 
+                this.zoom = 1;
+                this.startX = 0;
+                this.startY = 0;
+                this.accX= 0;
+                this.accY= 0;
+
                 ResetControls(null);
 
                 this.FileName = fileName;
@@ -216,7 +222,7 @@ namespace PhotoEditor
                     originalImage = null;
                 }
                 originalImage = (Bitmap)image.Clone();
-                UpdateEditedImage((Bitmap)image);
+                UpdateEditedImage(OriginalImageResized());
                 UpdateListViewFilters();
 
                 (new System.Threading.Thread(new System.Threading.ThreadStart(LoadHistogram))).Start();
@@ -254,7 +260,6 @@ namespace PhotoEditor
             {
                 SetShowImage((Bitmap)editedImage.Clone());
             }
-
         }
 
         private Image ResizeImage(Image image, int compatibility)
@@ -264,14 +269,12 @@ namespace PhotoEditor
         }
         private void SetShowImage(Bitmap image)
         {
-            //int percentEditeed = (int)(((imgFoto.Width+ imgFoto.Width) * 100 / (image.Width + image.Height))*zoom);
-            showImage = (Bitmap)ResizeImage(image, imgFoto.Width + imgFoto.Height); //ProcessImage.ResizeImage(image, percentEditeed) ;
+            showImage = (Bitmap)ResizeImage(image, imgFoto.Width + imgFoto.Height);
             imgFoto.Invalidate();
         }
 
         private Bitmap OriginalImageResized()
         {
-            //int percent = 100;
             if (!rbIllimited.Checked)
             {
                 int sizeMax = 0;
@@ -283,8 +286,7 @@ namespace PhotoEditor
 
                 if ((originalImage.Width + originalImage.Height) > sizeMax)
                 {
-                    //percent = sizeMax * 100 / (originalImage.Width + originalImage.Height);
-                    return (Bitmap)ResizeImage((Image)originalImage.Clone(), sizeMax);//  ProcessImage.ResizeImage((Image)originalImage.Clone(), percent);
+                    return (Bitmap)ResizeImage((Image)originalImage.Clone(), sizeMax);
 
                 }
             }
@@ -347,7 +349,7 @@ namespace PhotoEditor
         {
             IntEdit++;
 
-            lblTemperatura.Text = trTemperatura.Value.ToString();
+            lblBalance.Text = trBalance.Value.ToString();
             lblSaturation.Text = trSaturation.Value.ToString();
 
             lblBrilho.Text = trBrilho.Value.ToString();
@@ -399,22 +401,13 @@ namespace PhotoEditor
                 zoom -= ZoomIncrement;
             }
 
-            imgFoto.Invalidate();
+            ShowEditedImage();
         }
 
 
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            /*if (editedImage!=null) {
-                SetShowImage((Bitmap)editedImage.Clone());
-                float rw = (showImage.Width * zoom) * 1.25f;
-                float rh = (showImage.Height * zoom) * 1.25f;
-                float x = (((imgFoto.Width / 2) - (rw / 2)) / 2) + accX;
-                float y = (((imgFoto.Height / 2) - (rh / 2)) / 2) + accY;
-                e.Graphics.DrawImage(showImage, x + (100 / zoom), y);
-            }*/
-
             if (showImage != null)
             {
                 e.Graphics.ScaleTransform(zoom, zoom);
@@ -495,7 +488,7 @@ namespace PhotoEditor
 
         private void btnTemperatura_Click(object sender, EventArgs e)
         {
-            trTemperatura.Value = 0;
+            trBalance.Value = 0;
             MakeAdjusts();
         }
         private void btnRealce_Click(object sender, EventArgs e)
@@ -516,12 +509,15 @@ namespace PhotoEditor
             }
         }
 
+        private void AddNewEffect() {
+            this.Effects.Add(GetEffect());
+            UpdateListaEfeitos();
+            ResetControls(null);
+        }
 
         private void btnAplicar_Click(object sender, EventArgs e)
         {
-            this.Effects.Add(GetEffect());
-            UpdateListaEfeitos();
-            ResetControls(sender);
+            AddNewEffect();
         }
 
         private Effect GetEffect()
@@ -531,7 +527,7 @@ namespace PhotoEditor
                 Brightness = trBrilho.Value,
                 Contrast = trContrast.Value,
                 Saturation = trSaturation.Value,
-                Temperature = trTemperatura.Value,
+                Balance = trBalance.Value,
                 Highlight = trHighlight.Value,
                 Exposition = trExposition.Value,
                 BalanceLeft = cmbBalanceLeft.Text,
@@ -584,7 +580,7 @@ namespace PhotoEditor
             trBrilho.Value = 0;
             trContrast.Value = 0;
             trSaturation.Value = 0;
-            trTemperatura.Value = 0;
+            trBalance.Value = 0;
             trHighlight.Value = 0;
             trExposition.Value = 0;
 
@@ -614,8 +610,9 @@ namespace PhotoEditor
             bm8.Text = "0";
             bm9.Text = "0";
 
+            numTones.Value = 8;
             numSizeNoise.Value = 0;
-
+            numLimitNoise.Value = 5;
         }
 
         private void UpdateListaEfeitos()
@@ -680,6 +677,10 @@ namespace PhotoEditor
 
         private void button5_Click(object sender, EventArgs e)
         {
+            if (GetEffect().IsValid) {
+                AddNewEffect();
+            }
+
             if (this.Effects.Count > 0)
             {
                 FormFiltro formFiltro = new FormFiltro();
@@ -838,12 +839,22 @@ namespace PhotoEditor
             }
             else if (cmbEffects.Text == "reduzir ruído")
             {
+                bm1.Text = "0";
+                bm2.Text = "-1";
+                bm3.Text = "0";
+                bm4.Text = "-1";
+                bm5.Text = "5";
+                bm6.Text = "-1";
+                bm7.Text = "0";
+                bm8.Text = "-1";
+                bm9.Text = "0";
+
                 numSizeNoise.Value = 3;
                 numLimitNoise.Value = 5;
             }
             else if (cmbEffects.Text == "desenho")
             {
-                numSizeNoise.Value = 4;
+                numSizeNoise.Value = 6;
                 numLimitNoise.Value = 5;
                 bm1.Text = "-1";
                 bm2.Text = "-1";
@@ -860,14 +871,14 @@ namespace PhotoEditor
             }
             else if (cmbEffects.Text == "outono")
             {
-                numTones.Value = 9;
+                numTones.Value = 8;
                 cbR.Checked = false;
                 cbB.Checked = false;
                 cbClaro.Checked = false;
                 cbMedios.Checked = false;
                 cmbBalanceLeft.Text = "Red";
                 cmbBalanceRight.Text = "Cyan";
-                trTemperatura.Value = -80;
+                trBalance.Value = -80;
                 trSaturation.Value = -40;
             }
             else if (cmbEffects.Text == "nivelar cores") {
@@ -957,13 +968,17 @@ namespace PhotoEditor
                 if (rbFHD.Checked) { strformato = string.Format("para o formato Full HD"); }
                 if (rb4K.Checked) { strformato = string.Format("para o formato 4K"); }
 
+                
+
                 Bitmap saveImage = (Bitmap)editedImage.Clone();
                 Bitmap saveImage64 = (Bitmap)ProcessImage.ResizeImage((Image)editedImage.Clone(), 64, 64);
 
                 string img_path = this.FileName;
                 string img_name = System.IO.Path.GetFileName(this.FileName);
 
-                if (!System.IO.File.Exists(img_path) || rbIllimited.Checked || (System.IO.File.Exists(img_path) && MessageBox.Show(string.Format("Tem certeza que deseja sobrescrever o arquivo {0} {1}?", img_name, strformato), "Atenção", MessageBoxButtons.YesNo) == DialogResult.Yes))
+                bool CanSize = rbIllimited.Checked || MessageBox.Show(string.Format("Tem certeza que deseja sobrescrever o arquivo {0} {1}?", img_name, strformato), "Atenção", MessageBoxButtons.YesNo) == DialogResult.Yes;
+
+                if (CanSize)
                 {
                     saveImage.Save(img_path);
 
@@ -1032,6 +1047,11 @@ namespace PhotoEditor
         {
             trExposition.Value = 0;
             MakeAdjusts();
+        }
+
+        private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ImageEditor.Cancel = true;
         }
     }
 }

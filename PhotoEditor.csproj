@@ -72,8 +72,8 @@
     <Compile Include="Helpers\Filter.cs" />
     <Compile Include="Helpers\ImageEditor.cs" />
     <Compile Include="Helpers\ImageNoiseReducer.cs" />
+    <Compile Include="Helpers\ImagePixelMatrix.cs" />
     <Compile Include="Helpers\ParamEditor.cs" />
-    <Compile Include="Helpers\ImageContainer.cs" />
     <Compile Include="Helpers\Neightborhud.cs" />
     <Compile Include="Helpers\PixelColor.cs" />
     <Compile Include="Helpers\FastPixel.cs" />
